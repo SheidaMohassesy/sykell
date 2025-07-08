@@ -1,0 +1,19 @@
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Mixin for Tablet (Medium screens)
+@mixin tablet {
+  @media (min-width: 601px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+// Mixin for Mobile (Small screens)
+@mixin mobile {
+  @media (max-width: 600px) {
+    @content;
+  }
+}

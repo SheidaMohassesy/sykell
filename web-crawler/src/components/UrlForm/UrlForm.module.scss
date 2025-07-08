@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #8b3a62;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+}
