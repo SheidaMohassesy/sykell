@@ -11,9 +11,10 @@ export default function UrlForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (url.trim()) onSubmit(url.trim());
-    setUrl("");
-	
+    if (url.trim()) {
+      setUrl(url.trim());
+      onSubmit(url.trim());
+    }
   };
 
   return (

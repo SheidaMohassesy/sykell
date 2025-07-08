@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,12 +14,10 @@ type CrawlRequest struct {
 
 
 func main() {
-
-	fmt.Println("main")
-	fmt.Println("------------------------------")
 	r := gin.Default()
+	r.Use(cors.Default())
 
-	fmt.Println("before POST")
+
 
 	r.POST("/crawl", func(c *gin.Context) {
 		var req CrawlRequest
@@ -33,10 +32,16 @@ func main() {
 			return
 		}
 
-		//c.JSON(http.StatusOK, result)
+		fmt.Printf("Crawl result:\n%+v\n", result)
+
 		c.JSON(http.StatusOK, gin.H{
 			"html_version":    result.HTMLVersion,
 			"page_title":      result.PageTitle,
+			"heading_count":   result.HeadingCount,
+			"internal_links":  result.InternalLinks,
+			"external_links":  result.ExternalLinks,
+			"broken_links":    result.BrokenLinks,
+			"login_form_found": result.LoginFormFound,
 		})
 
 	})

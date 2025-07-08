@@ -1,16 +1,34 @@
 "use client";
+
 import styles from "./UrlTable.module.scss";
+
+type Heading = {
+  h1: number;
+  h2: number;
+  h3: number;
+  h4: number;
+  h5: number;
+  h6: number;
+};
 
 type UrlData = {
   id: number;
-  title: string;
-  htmlVersion: string;
-  internalLinks: number;
-  externalLinks: number;
+  page_title: string;
+  html_version: string;
+  internal_links: number;
+  external_links: number;
   status: string;
+  login_form_found: boolean;
+  broken_links: number;
+  heading_count: Heading;
 };
 
-export default function UrlTable({ data }: { data: UrlData[] }) {
+type UrlTableProps = {
+  data: UrlData | null;
+};
+
+export default function UrlTable({ data }: UrlTableProps) {
+  console.log("Rendering UrlTable with data:", data);
   return (
     <table className={styles.table}>
       <thead>
@@ -23,15 +41,15 @@ export default function UrlTable({ data }: { data: UrlData[] }) {
         </tr>
       </thead>
       <tbody>
-        {data.map((url) => (
-          <tr key={url.id}>
-            <td>{url.title}</td>
-            <td>{url.htmlVersion}</td>
-            <td>{url.internalLinks}</td>
-            <td>{url.externalLinks}</td>
-            <td>{url.status}</td>
+        {data && (
+          <tr key={data.id}>
+            <td>{data.page_title}</td>
+            <td>{data.html_version}</td>
+            <td>{data.internal_links}</td>
+            <td>{data.external_links}</td>
+            <td>{data.status}</td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );

@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 
 	"golang.org/x/net/html"
 )
@@ -21,24 +22,30 @@ type CrawlResult struct {
 }
 
 func CrawlPage(target string) (*CrawlResult, error) {
-	fmt.Println("Crawling......:", target)
-	resp, err := http.Get(target)
+	fmt.Println("Crawling:", target)
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	req, err := http.NewRequest("GET", target, nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
-	fmt.Println("Response Status:", resp.Status)
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; MyBot/1.0)")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("request failed: %w", err)
+	}
 	defer resp.Body.Close()
 
-	fmt.Println("Close the response body")
+	if resp.StatusCode >= 400 {
+		return nil, fmt.Errorf("HTTP error: %s", resp.Status)
+	}
 
 	doc, err := html.Parse(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse HTML: %w", err)
 	}
 
-	fmt.Println("Parsed HTML document")
-
-	fmt.Println("Doc", doc)
 	headingCount := make(map[string]int)
 	for i := 1; i <= 6; i++ {
 		tag := "h" + strconv.Itoa(i)
@@ -112,7 +119,10 @@ func extractLinks(n *html.Node) []string {
 }
 
 func classifyLinks(links []string, base string) (internal, external []string) {
-	baseURL, _ := url.Parse(base)
+	baseURL, err := url.Parse(base)
+	if err != nil {
+		return
+	}
 	for _, link := range links {
 		u, err := url.Parse(link)
 		if err != nil {
@@ -133,10 +143,21 @@ func classifyLinks(links []string, base string) (internal, external []string) {
 
 func checkBrokenLinks(links []string) int {
 	broken := 0
+	client := http.Client{Timeout: 5 * time.Second}
+
 	for _, link := range links {
-		resp, err := http.Head(link)
+		req, err := http.NewRequest("HEAD", link, nil)
+		if err != nil {
+			broken++
+			continue
+		}
+		req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; MyBot/1.0)")
+		resp, err := client.Do(req)
 		if err != nil || resp.StatusCode >= 400 {
 			broken++
+		}
+		if resp != nil && resp.Body != nil {
+			resp.Body.Close()
 		}
 	}
 	return broken
