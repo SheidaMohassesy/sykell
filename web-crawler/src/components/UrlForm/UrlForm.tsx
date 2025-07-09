@@ -1,5 +1,4 @@
-"use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./UrlForm.module.scss";
 
 const UrlForm = ({ onSubmit }: { onSubmit: (url: string) => void }) => {

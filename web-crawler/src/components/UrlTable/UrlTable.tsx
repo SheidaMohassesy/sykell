@@ -1,6 +1,7 @@
 "use client";
 
-import useIsMobile from "@/hooks/useIsMobile";
+import React from "react";
+import useIsMobile from "../../hooks/useIsMobile";
 import styles from "./UrlTable.module.scss";
 
 type Heading = {
