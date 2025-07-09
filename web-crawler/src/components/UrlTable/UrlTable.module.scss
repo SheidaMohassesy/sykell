@@ -1,19 +1,46 @@
-.table {
+@use "../../styles/mixins" as *;
+
+.tableWrapper {
+  overflow-x: auto;
   width: 100%;
-  border-collapse: collapse;
 
-  th,
-  td {
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    text-align: left;
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    //min-width: 600px;
+
+    th,
+    td {
+      padding: 0.75rem;
+      border: 1px solid #ecd8e2;
+      text-align: left;
+    }
+
+    th {
+      background-color: #ecd8e2;
+    }
+
+    tbody tr:hover {
+      background-color: #f0f0f0;
+    }
   }
+}
+.headingWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.headingLable {
+  font-weight: bold;
 
-  th {
-    background-color: #eee;
-  }
-
-  tbody tr:hover {
-    background-color: #f0f0f0;
+  background-color: #d4edda;
+  border: 0;
+  border-radius: 5px;
+  font-weight: normal;
+  padding: 5px;
+  font-size: 12px;
+  &:hover {
+    background-color: yellowgreen;
+    cursor: pointer;
   }
 }

@@ -2,11 +2,7 @@
 import { useState } from "react";
 import styles from "./UrlForm.module.scss";
 
-export default function UrlForm({
-  onSubmit,
-}: {
-  onSubmit: (url: string) => void;
-}) {
+const UrlForm = ({ onSubmit }: { onSubmit: (url: string) => void }) => {
   const [url, setUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,4 +25,6 @@ export default function UrlForm({
       <button type="submit">Analyze</button>
     </form>
   );
-}
+};
+
+export default UrlForm;

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./page.module.css";
 import UrlForm from "@/components/UrlForm/UrlForm";
 import UrlTable from "@/components/UrlTable/UrlTable";
@@ -13,10 +12,9 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
 
   const handleAddUrl = (url: string) => {
-    // later: send to backend
-    console.log("Submitted URL:", url);
     if (url.trim() === "") {
       setError("URL cannot be empty");
+      console.error(error);
       return;
     }
 
@@ -48,7 +46,7 @@ export default function Page() {
 
   return (
     <main style={{ padding: "2rem" }}>
-      <h1>Web Crawler Dashboard</h1>
+      <h1 className={styles.title}>Web Crawler Dashboard</h1>
       <UrlForm onSubmit={handleAddUrl} />
       <UrlTable data={result} />
     </main>

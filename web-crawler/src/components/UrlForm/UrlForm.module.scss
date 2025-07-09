@@ -7,6 +7,13 @@
     flex: 1;
     padding: 0.5rem;
     font-size: 1rem;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    &:focus {
+      border-color: #8b3a62;
+      outline: none;
+    }
   }
 
   button {
@@ -14,6 +21,11 @@
     background-color: #8b3a62;
     color: white;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
+    margin-top: 10px;
+    &:hover {
+      background-color: #a04b7c;
+    }
   }
 }
